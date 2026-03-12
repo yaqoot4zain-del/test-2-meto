@@ -1,0 +1,82 @@
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            {% if section_subtitle %}
+            <p class="section-header__subtitle">{{ section_subtitle }}</p>
+            {% endif %}
+            <h2 class="section-header__title">{{ section_title }}</h2>
+            <div class="section-header__divider">
+                <span class="section-header__line"></span>
+                <span class="section-header__diamond"></span>
+                <span class="section-header__line"></span>
+            </div>
+        </div>
+        
+        {% if products|length > 0 %}
+        <div class="products-grid products-grid--4">
+            {% for product in products %}
+            <article class="product-card">
+                <div class="product-card__image-wrapper">
+                    <a href="{{ product.url }}">
+                        <img src="{{ product.image ?? 'images/placeholder.jpg' | asset }}" 
+                             alt="{{ product.name }}" 
+                             class="product-card__image"
+                             {% if product.images|length > 1 %}data-hover-image="{{ product.images[1] }}"{% endif %}>
+                    </a>
+                    {% if product.is_new %}
+                    <span class="product-card__badge product-card__badge--new">{{ trans('elements.product.new') }}</span>
+                    {% elseif product.on_sale %}
+                    <span class="product-card__badge product-card__badge--sale">{{ trans('elements.product.sale') }}</span>
+                    {% endif %}
+                    <div class="product-card__actions">
+                        <button class="product-card__action-btn" data-wishlist="{{ product.id }}" aria-label="{{ trans('elements.common.add_to_wishlist') }}">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <button class="product-card__action-btn" data-quick-view="{{ product.id }}" aria-label="{{ trans('elements.common.quick_view') }}">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <button class="product-card__action-btn" data-add-to-cart="{{ product.id }}" aria-label="{{ trans('elements.common.add_to_cart') }}">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2"/>
+                                <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                                <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="product-card__content">
+                    <h3 class="product-card__title">
+                        <a href="{{ product.url }}">{{ product.name }}</a>
+                    </h3>
+                    <div class="product-card__price">
+                        {% if product.on_sale %}
+                        <span class="product-card__price-current">{{ product.sale_price }}</span>
+                        <span class="product-card__price-old">{{ product.regular_price }}</span>
+                        {% else %}
+                        <span class="product-card__price-current">{{ product.price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        {% if show_view_all %}
+        <div class="text-center mt-50">
+            <a href="{{ products_url }}" class="btn btn--outline btn--large">
+                {{ trans('elements.common.view_all') }}
+            </a>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="products-empty">
+            <p>{{ trans('elements.product.no_products') }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>

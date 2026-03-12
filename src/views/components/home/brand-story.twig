@@ -1,0 +1,21 @@
+<section class="brand-story section">
+    <div class="container">
+        <div class="brand-story {% if reversed %}brand-story--reverse{% endif %}">
+            <div class="brand-story__image">
+                <img src="{{ image ?? 'images/about-placeholder.jpg' | asset }}" alt="{{ title }}">
+            </div>
+            <div class="brand-story__content">
+                {% if subtitle %}
+                <p class="brand-story__subtitle">{{ subtitle }}</p>
+                {% endif %}
+                <h2 class="brand-story__title">{{ title }}</h2>
+                <div class="brand-story__text">{{ content|raw }}</div>
+                {% if button_url %}
+                <a href="{{ button_url }}" class="btn btn--primary btn--large">
+                    {{ button_text ?? trans('elements.common.learn_more') }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

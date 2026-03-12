@@ -1,0 +1,28 @@
+{
+  "name": "salla-theme-luluoro",
+  "version": "1.0.0",
+  "description": "LuluOro - Elegant Jewelry E-commerce Theme for Salla Platform",
+  "main": "src/assets/js/theme.js",
+  "scripts": {
+    "dev": "salla watch",
+    "build": "salla build",
+    "serve": "salla serve"
+  },
+  "keywords": [
+    "salla",
+    "theme",
+    "jewelry",
+    "ecommerce",
+    "luluoro"
+  ],
+  "author": "LuluOro Theme Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "@salla.sa/cli": "^1.0.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.2"
+  },
+  "dependencies": {
+    "@salla.sa/base-theme": "^1.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{% extends 'layouts/master.twig' %}
+
+{% block title %}{{ page.title }} - {{ store.name }}{% endblock %}
+
+{% block content %}
+<div class="section">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{{ store.url }}" class="breadcrumb__link">{{ trans('elements.common.home') }}</a>
+            <span class="breadcrumb__separator">/</span>
+            <span class="breadcrumb__current">{{ page.title }}</span>
+        </nav>
+        
+        <article class="page-content">
+            <h1 class="heading-2 mb-30">{{ page.title }}</h1>
+            <div class="page-body">
+                {{ page.content|raw }}
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}

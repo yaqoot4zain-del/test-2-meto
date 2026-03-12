@@ -1,0 +1,164 @@
+<header class="header" id="header">
+    <div class="container">
+        <div class="header__inner">
+            <button class="header__menu-toggle" id="menu-toggle" aria-label="{{ trans('elements.common.open_menu') }}">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            
+            <div class="header__logo">
+                {% if theme.settings.get('logo') %}
+                <a href="{{ store.url }}">
+                    <img src="{{ theme.settings.get('logo') }}" alt="{{ store.name }}">
+                </a>
+                {% else %}
+                <a href="{{ store.url }}" class="header__logo-text">{{ store.name }}</a>
+                {% endif %}
+            </div>
+            
+            <nav class="header__nav">
+                <ul class="nav-menu">
+                    {% for item in menu('main-menu') %}
+                    <li class="nav-menu__item {% if item.children|length > 0 %}has-dropdown{% endif %}">
+                        <a href="{{ item.url }}" class="nav-menu__link">
+                            {{ item.name }}
+                            {% if item.children|length > 0 %}
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            {% endif %}
+                        </a>
+                        
+                        {% if item.children|length > 0 %}
+                        {% if item.children|length > 5 %}
+                        <div class="mega-menu">
+                            <div class="mega-menu__inner">
+                                {% for child in item.children %}
+                                <div class="mega-menu__column">
+                                    <h4 class="mega-menu__column-title">{{ child.name }}</h4>
+                                    {% if child.children|length > 0 %}
+                                    <ul class="mega-menu__list">
+                                        {% for subchild in child.children %}
+                                        <li>
+                                            <a href="{{ subchild.url }}" class="mega-menu__link">{{ subchild.name }}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="dropdown-menu">
+                            <ul class="dropdown-menu__list">
+                                {% for child in item.children %}
+                                <li>
+                                    <a href="{{ child.url }}" class="dropdown-menu__link">{{ child.name }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            
+            <div class="header__actions">
+                <button class="header__action-btn" id="search-toggle" aria-label="{{ trans('elements.common.search') }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                
+                <a href="{{ store.wishlist_url }}" class="header__action-btn" aria-label="{{ trans('elements.common.wishlist') }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    {% if wishlist_count > 0 %}
+                    <span class="header__action-count">{{ wishlist_count }}</span>
+                    {% endif %}
+                </a>
+                
+                <button class="header__action-btn" id="cart-toggle" aria-label="{{ trans('elements.common.cart') }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2"/>
+                        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    {% if cart_count > 0 %}
+                    <span class="header__action-count" id="cart-count">{{ cart_count }}</span>
+                    {% endif %}
+                </button>
+                
+                {% if user.logged_in %}
+                <a href="{{ user.profile_url }}" class="header__action-btn" aria-label="{{ trans('elements.common.my_account') }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                {% else %}
+                <a href="{{ store.login_url }}" class="header__action-btn" aria-label="{{ trans('elements.common.login') }}">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2"/>
+                        <polyline points="16,17 21,12 16,7" stroke="currentColor" stroke-width="2"/>
+                        <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-menu__header">
+        <div class="mobile-menu__logo">
+            {% if theme.settings.get('logo') %}
+            <img src="{{ theme.settings.get('logo') }}" alt="{{ store.name }}">
+            {% else %}
+            <span class="header__logo-text">{{ store.name }}</span>
+            {% endif %}
+        </div>
+        <button class="mobile-menu__close" id="mobile-menu-close" aria-label="{{ trans('elements.common.close_menu') }}">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+    
+    <nav class="mobile-nav">
+        {% for item in menu('main-menu') %}
+        <div class="mobile-nav__item {% if item.children|length > 0 %}has-children{% endif %}">
+            <a href="{{ item.url }}" class="mobile-nav__link">
+                {{ item.name }}
+                {% if item.children|length > 0 %}
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {% endif %}
+            </a>
+            {% if item.children|length > 0 %}
+            <div class="mobile-nav__sublist">
+                {% for child in item.children %}
+                <a href="{{ child.url }}" class="mobile-nav__sublink">{{ child.name }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="mobile-nav__item">
+            {% if user.logged_in %}
+            <a href="{{ user.profile_url }}" class="mobile-nav__link">{{ trans('elements.common.my_account') }}</a>
+            {% else %}
+            <a href="{{ store.login_url }}" class="mobile-nav__link">{{ trans('elements.common.login') }}</a>
+            {% endif %}
+        </div>
+    </nav>
+</div>

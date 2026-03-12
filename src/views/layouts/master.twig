@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="{{ store.locale.code ?? 'ar' }}" dir="{{ store.locale.code == 'ar' ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>{% block title %}{{ store.name }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ store.description }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+    
+    <link rel="canonical" href="{{ canonical_url ?? '' }}">
+    
+    {% if store.favicon %}
+    <link rel="shortcut icon" href="{{ store.favicon }}" type="image/x-icon">
+    {% endif %}
+    
+    {{ salla.head_open }}
+    
+    {% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ 'styles/theme.css' | asset }}">
+    {% endblock %}
+    
+    <style>
+        :root {
+            --primary-color: {{ theme.settings.get('primary_color') ?? '#B8860B' }};
+            --secondary-color: {{ theme.settings.get('secondary_color') ?? '#1a1a1a' }};
+            --accent-color: {{ theme.settings.get('accent_color') ?? '#D4AF37' }};
+            --text-color: #333333;
+            --text-light: #666666;
+            --text-muted: #999999;
+            --bg-color: #ffffff;
+            --bg-light: #f9f9f9;
+            --bg-dark: #1a1a1a;
+            --border-color: #e5e5e5;
+            --border-light: #f0f0f0;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --container-width: 1400px;
+            --header-height: 80px;
+            --header-height-mobile: 60px;
+        }
+        
+        {% if store.locale.code == 'ar' %}
+        :root {
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', 'Noto Sans Arabic', sans-serif;
+        }
+        {% endif %}
+    </style>
+    
+    {{ salla.head_close }}
+</head>
+<body class="{% if store.locale.code == 'ar' %}rtl{% endif %}" data-theme="luluoro">
+    {{ salla.body_open }}
+    
+    <div id="app" class="app-wrapper">
+        {% block announcement_bar %}
+        {% if theme.settings.get('show_announcement_bar') %}
+        <div class="announcement-bar" id="announcement-bar">
+            <div class="container">
+                <div class="announcement-bar__content">
+                    <p class="announcement-bar__text">{{ theme.settings.get('announcement_text') ?? 'Join the Insiders Club' }}</p>
+                    <a href="#" class="announcement-bar__link">{{ trans('elements.common.learn_more') }}</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endblock %}
+        
+        {% block header %}
+        {% include 'components/header/main.twig' %}
+        {% endblock %}
+        
+        <main id="main-content" class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+        
+        {% block footer %}
+        {% include 'components/footer/main.twig' %}
+        {% endblock %}
+        
+        {% block overlay %}
+        <div class="page-overlay" id="page-overlay"></div>
+        {% endblock %}
+        
+        {% block modals %}
+        <div class="modal" id="modal-search" role="dialog" aria-hidden="true">
+            <div class="modal__backdrop" data-modal-close></div>
+            <div class="modal__content">
+                <button class="modal__close" data-modal-close>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="modal__body">
+                    <form class="search-form" action="{{ store.search_url }}">
+                        <input type="search" name="q" class="search-form__input" placeholder="{{ trans('elements.common.search_placeholder') }}">
+                        <button type="submit" class="search-form__button">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        
+        {% block cookie_consent %}
+        {% if salla.cookie_consent %}
+        {{ salla.cookie_consent }}
+        {% endif %}
+        {% endblock %}
+    </div>
+    
+    {% block scripts %}
+    <script src="{{ 'js/theme.js' | asset }}"></script>
+    {% endblock %}
+    
+    {{ salla.body_close }}
+</body>
+</html>

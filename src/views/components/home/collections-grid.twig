@@ -1,0 +1,34 @@
+<section class="section">
+    <div class="container">
+        <div class="section-header">
+            {% if section_subtitle %}
+            <p class="section-header__subtitle">{{ section_subtitle }}</p>
+            {% endif %}
+            <h2 class="section-header__title">{{ section_title }}</h2>
+            <div class="section-header__divider">
+                <span class="section-header__line"></span>
+                <span class="section-header__diamond"></span>
+                <span class="section-header__line"></span>
+            </div>
+        </div>
+        
+        <div class="collections-grid collections-grid--{{ columns|default(3) }}">
+            {% for collection in collections %}
+            <a href="{{ collection.url }}" class="collection-card">
+                <div class="collection-card__image-wrapper">
+                    <img src="{{ collection.image ?? 'images/collection-placeholder.jpg' | asset }}" 
+                         alt="{{ collection.name }}" 
+                         class="collection-card__image">
+                    <div class="collection-card__overlay"></div>
+                </div>
+                <div class="collection-card__content">
+                    <h3 class="collection-card__title">{{ collection.name }}</h3>
+                    {% if collection.product_count %}
+                    <span class="collection-card__count">{{ collection.product_count }} {{ trans('elements.product.products') }}</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>

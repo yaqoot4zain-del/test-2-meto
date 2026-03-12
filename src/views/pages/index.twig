@@ -1,0 +1,47 @@
+{% extends 'layouts/master.twig' %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero__slider">
+        {% for slide in theme.settings.get('hero_slides') %}
+        <div class="hero__slide">
+            <img src="{{ slide.image }}" alt="{{ slide.title }}" class="hero__image">
+            <div class="hero__overlay"></div>
+            <div class="hero__content">
+                {% if slide.subtitle %}
+                <p class="hero__subtitle">{{ slide.subtitle }}</p>
+                {% endif %}
+                <h1 class="hero__title">{{ slide.title }}</h1>
+                {% if slide.text %}
+                <p class="hero__text">{{ slide.text }}</p>
+                {% endif %}
+                {% if slide.button_url %}
+                <a href="{{ slide.button_url }}" class="btn btn--gold btn--large hero__btn">
+                    {{ slide.button_text ?? trans('elements.common.shop_now') }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="hero__slide">
+            <img src="{{ 'images/hero-default.jpg' | asset }}" alt="{{ store.name }}" class="hero__image">
+            <div class="hero__overlay"></div>
+            <div class="hero__content">
+                <p class="hero__subtitle">{{ trans('elements.home.new_collection') }}</p>
+                <h1 class="hero__title">{{ trans('elements.home.hero_title') }}</h1>
+                <p class="hero__text">{{ trans('elements.home.hero_text') }}</p>
+                <a href="{{ store.products_url }}" class="btn btn--gold btn--large hero__btn">
+                    {{ trans('elements.common.shop_now') }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% component 'component-featured-products' with {'section_title': trans('elements.home.featured_products'), 'limit': 8} %}
+
+{% component 'component-photos-slider' %}
+
+{{ content_for('home') }}
+{% endblock %}

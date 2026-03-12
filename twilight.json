@@ -1,0 +1,400 @@
+{
+  "version": "1.0.0",
+  "theme_name": "LuluOro",
+  "repo_url": "https://github.com/salla-theme/luluoro",
+  "support_url": "https://salla.dev",
+  "author": {
+    "name": "LuluOro Theme Developer",
+    "email": "support@luluoro.com",
+    "url": "https://luluoro.com"
+  },
+  "settings": [
+    {
+      "type": "boolean",
+      "label": {
+        "ar": "شريط علوي داكن",
+        "en": "Dark Top Bar"
+      },
+      "id": "topnav_is_dark",
+      "format": "switch",
+      "selected": false
+    },
+    {
+      "type": "string",
+      "id": "placeholder",
+      "format": "hidden",
+      "value": "images/img_placeholder.png"
+    },
+    {
+      "type": "string",
+      "id": "primary_color",
+      "label": {
+        "ar": "اللون الأساسي",
+        "en": "Primary Color"
+      },
+      "format": "color",
+      "value": "#B8860B"
+    },
+    {
+      "type": "string",
+      "id": "secondary_color",
+      "label": {
+        "ar": "اللون الثانوي",
+        "en": "Secondary Color"
+      },
+      "format": "color",
+      "value": "#1a1a1a"
+    },
+    {
+      "type": "string",
+      "id": "accent_color",
+      "label": {
+        "ar": "لون التمييز",
+        "en": "Accent Color"
+      },
+      "format": "color",
+      "value": "#D4AF37"
+    },
+    {
+      "type": "string",
+      "id": "logo",
+      "label": {
+        "ar": "الشعار",
+        "en": "Logo"
+      },
+      "format": "image",
+      "value": ""
+    },
+    {
+      "type": "string",
+      "id": "show_announcement_bar",
+      "label": {
+        "ar": "إظهار شريط الإعلانات",
+        "en": "Show Announcement Bar"
+      },
+      "format": "switch",
+      "selected": true
+    },
+    {
+      "type": "string",
+      "id": "announcement_text",
+      "label": {
+        "ar": "نص الإعلان",
+        "en": "Announcement Text"
+      },
+      "format": "text",
+      "value": "Join the Insiders Club"
+    },
+    {
+      "type": "string",
+      "id": "footer_about_text",
+      "label": {
+        "ar": "نص حول المتجر في الفوتر",
+        "en": "Store About Text in Footer"
+      },
+      "format": "textarea",
+      "value": "Discover exquisite jewelry crafted with precision and passion."
+    },
+    {
+      "type": "string",
+      "id": "newsletter_enabled",
+      "label": {
+        "ar": "تفعيل النشرة البريدية",
+        "en": "Enable Newsletter"
+      },
+      "format": "switch",
+      "selected": true
+    }
+  ],
+  "features": [
+    "component-featured-products",
+    "component-fixed-banner",
+    "component-fixed-products",
+    "component-photos-slider",
+    "component-products-slider",
+    "component-parallax-background",
+    "component-random-testimonials",
+    "component-testimonials",
+    "component-square-photos",
+    "component-store-features",
+    "component-youtube",
+    "filters"
+  ],
+  "components": [
+    {
+      "name": "hero-banner",
+      "title": {
+        "ar": "بانر رئيسي",
+        "en": "Hero Banner"
+      },
+      "icon": "sicon-banner",
+      "path": "home.hero-banner",
+      "fields": [
+        {
+          "id": "slides",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 5,
+          "fields": [
+            {
+              "id": "image",
+              "type": "string",
+              "format": "image",
+              "label": {
+                "ar": "الصورة",
+                "en": "Image"
+              }
+            },
+            {
+              "id": "title",
+              "type": "string",
+              "label": {
+                "ar": "العنوان",
+                "en": "Title"
+              }
+            },
+            {
+              "id": "subtitle",
+              "type": "string",
+              "label": {
+                "ar": "العنوان الفرعي",
+                "en": "Subtitle"
+              }
+            },
+            {
+              "id": "button_text",
+              "type": "string",
+              "label": {
+                "ar": "نص الزر",
+                "en": "Button Text"
+              }
+            },
+            {
+              "id": "button_url",
+              "type": "string",
+              "label": {
+                "ar": "رابط الزر",
+                "en": "Button URL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections-grid",
+      "title": {
+        "ar": "شبكة المجموعات",
+        "en": "Collections Grid"
+      },
+      "icon": "sicon-grid",
+      "path": "home.collections-grid",
+      "fields": [
+        {
+          "id": "section_title",
+          "type": "string",
+          "label": {
+            "ar": "عنوان القسم",
+            "en": "Section Title"
+          }
+        },
+        {
+          "id": "collections",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 2,
+          "maxLength": 6,
+          "fields": [
+            {
+              "id": "image",
+              "type": "string",
+              "format": "image",
+              "label": {
+                "ar": "صورة المجموعة",
+                "en": "Collection Image"
+              }
+            },
+            {
+              "id": "title",
+              "type": "string",
+              "label": {
+                "ar": "اسم المجموعة",
+                "en": "Collection Name"
+              }
+            },
+            {
+              "id": "url",
+              "type": "string",
+              "label": {
+                "ar": "رابط المجموعة",
+                "en": "Collection URL"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "products-carousel",
+      "title": {
+        "ar": "عرض المنتجات",
+        "en": "Products Carousel"
+      },
+      "icon": "sicon-products-slider",
+      "path": "home.products-carousel",
+      "fields": [
+        {
+          "id": "section_title",
+          "type": "string",
+          "label": {
+            "ar": "عنوان القسم",
+            "en": "Section Title"
+          }
+        },
+        {
+          "id": "products_type",
+          "type": "string",
+          "format": "select",
+          "label": {
+            "ar": "نوع المنتجات",
+            "en": "Products Type"
+          },
+          "options": [
+            {
+              "value": "bestseller",
+              "label": {
+                "ar": "الأكثر مبيعاً",
+                "en": "Best Sellers"
+              }
+            },
+            {
+              "value": "new",
+              "label": {
+                "ar": "جديد",
+                "en": "New Arrivals"
+              }
+            },
+            {
+              "value": "featured",
+              "label": {
+                "ar": "مميز",
+                "en": "Featured"
+              }
+            }
+          ]
+        },
+        {
+          "id": "products_count",
+          "type": "string",
+          "format": "number",
+          "label": {
+            "ar": "عدد المنتجات",
+            "en": "Products Count"
+          },
+          "value": "8"
+        }
+      ]
+    },
+    {
+      "name": "brand-story",
+      "title": {
+        "ar": "قصة العلامة التجارية",
+        "en": "Brand Story"
+      },
+      "icon": "sicon-text",
+      "path": "home.brand-story",
+      "fields": [
+        {
+          "id": "title",
+          "type": "string",
+          "label": {
+            "ar": "العنوان",
+            "en": "Title"
+          }
+        },
+        {
+          "id": "content",
+          "type": "string",
+          "format": "textarea",
+          "label": {
+            "ar": "المحتوى",
+            "en": "Content"
+          }
+        },
+        {
+          "id": "image",
+          "type": "string",
+          "format": "image",
+          "label": {
+            "ar": "الصورة",
+            "en": "Image"
+          }
+        },
+        {
+          "id": "button_text",
+          "type": "string",
+          "label": {
+            "ar": "نص الزر",
+            "en": "Button Text"
+          }
+        },
+        {
+          "id": "button_url",
+          "type": "string",
+          "label": {
+            "ar": "رابط الزر",
+            "en": "Button URL"
+          }
+        }
+      ]
+    },
+    {
+      "name": "instagram-feed",
+      "title": {
+        "ar": "تغذية انستغرام",
+        "en": "Instagram Feed"
+      },
+      "icon": "sicon-instagram",
+      "path": "home.instagram-feed",
+      "fields": [
+        {
+          "id": "section_title",
+          "type": "string",
+          "label": {
+            "ar": "عنوان القسم",
+            "en": "Section Title"
+          }
+        },
+        {
+          "id": "images",
+          "type": "collection",
+          "format": "collection",
+          "minLength": 4,
+          "maxLength": 8,
+          "fields": [
+            {
+              "id": "image",
+              "type": "string",
+              "format": "image",
+              "label": {
+                "ar": "الصورة",
+                "en": "Image"
+              }
+            },
+            {
+              "id": "url",
+              "type": "string",
+              "label": {
+                "ar": "الرابط",
+                "en": "URL"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
