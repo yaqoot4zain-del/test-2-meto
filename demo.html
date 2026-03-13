@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuluOro - Elegant Jewelry Theme Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #FAF9F6; color: #333; }
+        :root {
+            --gold-primary: #B8860B;
+            --gold-light: #D4AF37;
+            --gold-dark: #8B6914;
+            --black: #1a1a1a;
+            --white: #ffffff;
+            --cream: #F5F3EF;
+        }
+        
+        /* Header */
+        .header { background: white; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100; }
+        .header__inner { max-width: 1400px; margin: 0 auto; padding: 0 20px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+        .header__logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--black); text-decoration: none; letter-spacing: 2px; }
+        .nav-menu { display: flex; gap: 32px; }
+        .nav-menu a { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--black); text-decoration: none; font-weight: 500; }
+        .nav-menu a:hover { color: var(--gold-primary); }
+        .header__icons { display: flex; gap: 16px; }
+        .header__icons svg { width: 22px; height: 22px; }
+        
+        /* Hero */
+        .hero { min-height: 70vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 50%, var(--black) 100%); color: white; text-align: center; padding: 80px 20px; }
+        .hero__subtitle { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+        .hero__title { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 500; margin-bottom: 16px; }
+        .hero__text { font-size: 18px; margin-bottom: 32px; opacity: 0.9; }
+        .btn { display: inline-block; padding: 16px 48px; background: var(--gold-primary); color: white; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; font-size: 14px; font-weight: 500; border: 2px solid var(--gold-primary); transition: all 0.3s; }
+        .btn:hover { background: var(--gold-dark); border-color: var(--gold-dark); }
+        
+        /* Collections Nav */
+        .collections-nav { padding: 20px 0; background: white; border-bottom: 1px solid #f0f0f0; }
+        .collections-nav__inner { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: center; gap: 40px; }
+        .collections-nav__inner a { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none; font-weight: 500; position: relative; }
+        .collections-nav__inner a:hover { color: var(--gold-primary); }
+        .collections-nav__inner a:hover::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 2px; background: var(--gold-primary); }
+        
+        /* Section */
+        .section { padding: 80px 0; }
+        .section--alt { background: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 28px; }
+        .section-link { font-size: 14px; color: var(--gold-primary); text-decoration: underline; }
+        
+        /* Products Grid */
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .products-grid { grid-template-columns: 1fr; } }
+        
+        .product-card { text-align: center; transition: transform 0.3s; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card__image { aspect-ratio: 1; background: var(--cream); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; overflow: hidden; }
+        .product-card__image span { font-size: 64px; }
+        .product-card__title { font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--black); }
+        .product-card__price { font-size: 14px; color: #666; }
+        
+        /* Brand Story */
+        .brand-story { background: var(--cream); padding: 100px 0; }
+        .brand-story__inner { max-width: 1400px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        @media (max-width: 768px) { .brand-story__inner { grid-template-columns: 1fr; } }
+        .brand-story__image { aspect-ratio: 4/5; background: linear-gradient(135deg, var(--gold-primary), var(--gold-light)); display: flex; align-items: center; justify-content: center; }
+        .brand-story__image span { font-size: 120px; color: white; }
+        .brand-story__content { padding: 40px; }
+        .brand-story__title { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 24px; }
+        .brand-story__text { font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 32px; }
+        
+        /* Shop Looks */
+        .looks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        @media (max-width: 768px) { .looks-grid { grid-template-columns: 1fr; } }
+        .look-item { text-align: center; text-decoration: none; color: var(--black); }
+        .look-item:hover { opacity: 0.8; }
+        .look-item__image { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .look-item__image span { font-size: 64px; }
+        .look-item__title { font-size: 16px; font-weight: 500; }
+        
+        /* Instagram */
+        .instagram-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; }
+        @media (max-width: 1024px) { .instagram-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 768px) { .instagram-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 480px) { .instagram-grid { grid-template-columns: repeat(2, 1fr); } }
+        .instagram-item { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+        .instagram-item span { font-size: 32px; color: white; }
+        
+        /* Footer */
+        .footer { background: var(--black); color: white; padding: 60px 0 0; }
+        .footer__inner { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .footer__newsletter { text-align: center; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
+        .footer__newsletter-title { font-family: 'Playfair Display', serif; font-size: 24px; margin-bottom: 12px; }
+        .footer__newsletter-text { color: rgba(255,255,255,0.7); margin-bottom: 24px; }
+        .footer__newsletter-form { display: flex; max-width: 500px; margin: 0 auto; gap: 12px; }
+        .footer__newsletter-form input { flex: 1; padding: 14px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 14px; }
+        .footer__newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
+        .footer__newsletter-form button { padding: 14px 24px; background: var(--gold-primary); color: white; border: none; cursor: pointer; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+        @media (max-width: 1024px) { .footer__grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+        .footer__column-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+        .footer__about { color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.8; }
+        .footer__links li { margin-bottom: 12px; }
+        .footer__links a { color: rgba(255,255,255,0.7); font-size: 14px; text-decoration: none; }
+        .footer__links a:hover { color: var(--gold-primary); }
+        .footer__bottom { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer__copyright { color: rgba(255,255,255,0.5); font-size: 14px; }
+        .footer__social { display: flex; gap: 16px; }
+        .footer__social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; }
+        .footer__social a:hover { background: var(--gold-primary); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__inner">
+            <a href="#" class="header__logo">LuluOro</a>
+            <nav class="nav-menu">
+                <a href="#">Shop</a>
+                <a href="#">Rings</a>
+                <a href="#">Earrings</a>
+                <a href="#">Bracelets</a>
+                <a href="#">Necklaces</a>
+            </nav>
+            <div class="header__icons">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div>
+            <p class="hero__subtitle">NEW COLLECTION</p>
+            <h1 class="hero__title">Elegant Jewelry</h1>
+            <p class="hero__text">Discover our exquisite collection of fine jewelry</p>
+            <a href="#" class="btn">SHOP NOW</a>
+        </div>
+    </section>
+
+    <!-- Collections Nav -->
+    <nav class="collections-nav">
+        <div class="collections-nav__inner">
+            <a href="#">All</a>
+            <a href="#">Rings</a>
+            <a href="#">Earrings</a>
+            <a href="#">Bracelets</a>
+            <a href="#">Necklaces</a>
+        </div>
+    </nav>
+
+    <!-- Bestsellers -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">LuluOro Bestsellers</h2>
+                <a href="#" class="section-link">View all</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #B8860B, #D4AF37);"><span>💎</span></div>
+                    <h3 class="product-card__title">ARCH NECKLACE GOLD</h3>
+                    <p class="product-card__price">630.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #1a1a1a, #333);"><span>💍</span></div>
+                    <h3 class="product-card__title">PALM GARDEN EARRINGS</h3>
+                    <p class="product-card__price">590.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #B8860B, #8B6914);"><span>🌙</span></div>
+                    <h3 class="product-card__title">NIGHT SKY NECKLACE</h3>
+                    <p class="product-card__price">690.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #D4AF37, #B8860B);"><span>✨</span></div>
+                    <h3 class="product-card__title">DATES TEXTURE DROP STUDS</h3>
+                    <p class="product-card__price">430.00 SAR</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="section section--alt">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">New Arrivals</h2>
+                <a href="#" class="section-link">View all</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #C0C0C0, #E8E8E8);"><span>🌙</span></div>
+                    <h3 class="product-card__title">SILVER MOON CHARMS</h3>
+                    <p class="product-card__price">530.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #C0C0C0, #A9A9A9);"><span>💎</span></div>
+                    <h3 class="product-card__title">SWIRL RING SILVER</h3>
+                    <p class="product-card__price">430.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #B8860B, #D4AF37);"><span>🌴</span></div>
+                    <h3 class="product-card__title">PALM TREE EARRINGS</h3>
+                    <p class="product-card__price">470.00 SAR</p>
+                </div>
+                <div class="product-card">
+                    <div class="product-card__image" style="background: linear-gradient(135deg, #1a1a1a, #333);"><span>✨</span></div>
+                    <h3 class="product-card__title">HILAL CHOKER NECKLACE</h3>
+                    <p class="product-card__price">470.00 SAR</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Story -->
+    <section class="brand-story">
+        <div class="brand-story__inner">
+            <div class="brand-story__image"><span>💎</span></div>
+            <div class="brand-story__content">
+                <h2 class="brand-story__title">Our Story</h2>
+                <p class="brand-story__text">At LuluOro, we believe that jewelry should be as unique as the person wearing it. Each piece is crafted with precision and passion, combining traditional artistry with contemporary design. Our collections are inspired by the beauty of nature and the elegance of timeless craftsmanship.</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop the Looks -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Shop the Looks</h2>
+            <div class="looks-grid">
+                <a href="#" class="look-item">
+                    <div class="look-item__image" style="background: linear-gradient(135deg, #1a1a1a, #333);"><span>🌙✨</span></div>
+                    <h3 class="look-item__title">Night Sky Mix & Match</h3>
+                </a>
+                <a href="#" class="look-item">
+                    <div class="look-item__image" style="background: linear-gradient(135deg, #B8860B, #D4AF37);"><span>💚💫</span></div>
+                    <h3 class="look-item__title">Gold & Malachite</h3>
+                </a>
+                <a href="#" class="look-item">
+                    <div class="look-item__image" style="background: linear-gradient(135deg, #C0C0C0, #E8E8E8);"><span>💎🌿</span></div>
+                    <h3 class="look-item__title">Meaningful Accents</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram -->
+    <section class="section section--alt">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 40px;">Follow Us on Instagram</h2>
+            <div class="instagram-grid">
+                <div class="instagram-item" style="background: linear-gradient(45deg, #B8860B, #D4AF37);"><span>📷</span></div>
+                <div class="instagram-item" style="background: linear-gradient(45deg, #1a1a1a, #333);"><span>📷</span></div>
+                <div class="instagram-item" style="background: linear-gradient(45deg, #D4AF37, #B8860B);"><span>📷</span></div>
+                <div class="instagram-item" style="background: linear-gradient(45deg, #C0C0C0, #E8E8E8);"><span>📷</span></div>
+                <div class="instagram-item" style="background: linear-gradient(45deg, #B8860B, #8B6914);"><span>📷</span></div>
+                <div class="instagram-item" style="background: linear-gradient(45deg, #333, #1a1a1a);"><span>📷</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__newsletter">
+                <h3 class="footer__newsletter-title">Join the Insiders Club</h3>
+                <p class="footer__newsletter-text">Get 10% off your first order and be the first to know about new drops</p>
+                <form class="footer__newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer__grid">
+                <div>
+                    <h4 class="footer__column-title">LuluOro</h4>
+                    <p class="footer__about">Discover exquisite jewelry crafted with precision and passion.</p>
+                </div>
+                <div>
+                    <h4 class="footer__column-title">Quick Links</h4>
+                    <ul class="footer__links">
+                        <li><a href="#">Shop All</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Bestsellers</a></li>
+                        <li><a href="#">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__column-title">Categories</h4>
+                    <ul class="footer__links">
+                        <li><a href="#">Rings</a></li>
+                        <li><a href="#">Earrings</a></li>
+                        <li><a href="#">Bracelets</a></li>
+                        <li><a href="#">Necklaces</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer__column-title">Contact</h4>
+                    <ul class="footer__links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Exchanges</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copyright">© 2024 LuluOro Jewelry. All rights reserved.</p>
+                <div class="footer__social">
+                    <a href="#">📷</a>
+                    <a href="#">🎵</a>
+                    <a href="#">💬</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
