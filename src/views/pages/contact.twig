@@ -1,178 +1,174 @@
 {% extends 'layouts/master.twig' %}
 
-{% block title %}{{ trans('elements.contact.title') }} - {{ store.name }}{% endblock %}
+{% block title %}{{ trans('elements.contact.contact_us') }} - {{ store.name }}{% endblock %}
 
 {% block content %}
-<div class="section">
-    <div class="container container--narrow">
-        <div class="section-header">
-            <h1 class="section-header__title">{{ trans('elements.contact.title') }}</h1>
-            <div class="section-header__divider">
-                <span class="section-header__line"></span>
-                <span class="section-header__diamond"></span>
-                <span class="section-header__line"></span>
-            </div>
+<main class="contact-page">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" style="padding: 20px 0; font-size: 13px; color: #666;">
+            <a href="{{ store.url }}" style="color: #666; text-decoration: none;">{{ trans('elements.common.home') }}</a>
+            <span style="margin: 0 8px;">/</span>
+            <span style="color: var(--gold-primary);">{{ trans('elements.contact.contact_us') }}</span>
+        </nav>
+
+        <div class="contact-header" style="text-align: center; margin-bottom: 60px;">
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 16px;">Get in Touch</h1>
+            <p style="font-size: 18px; color: #666; max-width: 600px; margin: 0 auto;">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
         </div>
-        
-        <div class="contact-page">
-            <div class="contact-info">
-                {% if store.address %}
-                <div class="contact-info__item">
-                    <h3 class="contact-info__title">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        {{ trans('elements.contact.address') }}
-                    </h3>
-                    <p class="contact-info__text">{{ store.address }}</p>
-                </div>
-                {% endif %}
+
+        <div class="contact-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 80px;">
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 30px;">Send a Message</h2>
                 
-                {% if store.phone %}
-                <div class="contact-info__item">
-                    <h3 class="contact-info__title">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        {{ trans('elements.contact.phone') }}
-                    </h3>
-                    <p class="contact-info__text">
-                        <a href="tel:{{ store.phone }}">{{ store.phone }}</a>
-                    </p>
-                </div>
-                {% endif %}
-                
-                {% if store.email %}
-                <div class="contact-info__item">
-                    <h3 class="contact-info__title">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        {{ trans('elements.contact.email') }}
-                    </h3>
-                    <p class="contact-info__text">
-                        <a href="mailto:{{ store.email }}">{{ store.email }}</a>
-                    </p>
-                </div>
-                {% endif %}
-                
-                {% if store.working_hours %}
-                <div class="contact-info__item">
-                    <h3 class="contact-info__title">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        {{ trans('elements.contact.hours') }}
-                    </h3>
-                    <p class="contact-info__text">{{ store.working_hours }}</p>
-                </div>
-                {% endif %}
+                <form action="{{ store.contact_url }}" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">First Name *</label>
+                            <input type="text" name="first_name" required style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">Last Name *</label>
+                            <input type="text" name="last_name" required style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">Email *</label>
+                        <input type="email" name="email" required style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">Phone</label>
+                        <input type="tel" name="phone" style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit;">
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">Subject *</label>
+                        <select name="subject" required style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit; background: white;">
+                            <option value="">Select a subject</option>
+                            <option value="order">Order Inquiry</option>
+                            <option value="product">Product Question</option>
+                            <option value="shipping">Shipping Information</option>
+                            <option value="returns">Returns & Exchanges</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label style="display: block; font-size: 14px; color: #666; margin-bottom: 8px;">Message *</label>
+                        <textarea name="message" rows="5" required style="width: 100%; padding: 14px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn--gold" style="padding: 18px 48px; border: none; cursor: pointer;">Send Message</button>
+                </form>
             </div>
-            
-            <form class="contact-form" action="{{ store.contact_url }}" method="post">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label" for="contact-name">{{ trans('elements.contact.name') }}</label>
-                        <input type="text" id="contact-name" name="name" class="form-input" required>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 30px;">Contact Information</h2>
+                
+                <div class="contact-card" style="background: #FAF9F6; padding: 30px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5" style="width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px;">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">Visit Our Store</h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                                LuluOro Jewelry<br>
+                                King Fahd Road<br>
+                                Riyadh, Saudi Arabia
+                            </p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="contact-email">{{ trans('elements.contact.email') }}</label>
-                        <input type="email" id="contact-email" name="email" class="form-input" required>
+                </div>
+                
+                <div class="contact-card" style="background: #FAF9F6; padding: 30px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5" style="width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px;">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">Call Us</h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                                {% if store.phone %}
+                                <a href="tel:{{ store.phone }}" style="color: #666; text-decoration: none;">{{ store.phone }}</a>
+                                {% else %}
+                                +966 XX XXX XXXX
+                                {% endif %}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label" for="contact-phone">{{ trans('elements.contact.phone') }}</label>
-                    <input type="tel" id="contact-phone" name="phone" class="form-input">
+                <div class="contact-card" style="background: #FAF9F6; padding: 30px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5" style="width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px;">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">Email Us</h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                                {% if store.email %}
+                                <a href="mailto:{{ store.email }}" style="color: #666; text-decoration: none;">{{ store.email }}</a>
+                                {% else %}
+                                info@luluoro.com
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label" for="contact-subject">{{ trans('elements.contact.subject') }}</label>
-                    <input type="text" id="contact-subject" name="subject" class="form-input">
+                <div class="contact-card" style="background: #FAF9F6; padding: 30px; border-radius: 12px;">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="1.5" style="width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">Business Hours</h3>
+                            <p style="font-size: 14px; color: #666; line-height: 1.6;">
+                                Sunday - Thursday: 10:00 AM - 10:00 PM<br>
+                                Friday - Saturday: 2:00 PM - 10:00 PM
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="contact-message">{{ trans('elements.contact.message') }}</label>
-                    <textarea id="contact-message" name="message" class="form-textarea" rows="5" required></textarea>
+
+                <!-- Social Links -->
+                <div style="margin-top: 30px;">
+                    <h3 style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Follow Us</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="#" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--gold-primary); border-radius: 50%; color: white;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--gold-primary); border-radius: 50%; color: white;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                        </a>
+                        <a href="#" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--gold-primary); border-radius: 50%; color: white;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;"><path d="M12.206.793c.99 0 4.837.283 6.525 4.46.57 1.413.457 3.719.361 5.713l-.006.126c-.012.219-.022.429-.03.626-.062 1.366-.113 2.464-.538 3.179-.578.97-1.464 1.485-2.464 1.432-.64-.033-1.16-.314-1.485-.553-.278.197-.642.426-1.088.553-.303.087-.627.131-.96.131-.414 0-.85-.061-1.3-.182l-.134-.034c-.416-.104-.93-.233-1.484-.233-.423 0-.842.073-1.246.217l-.083.03c-.542.2-1.024.378-1.576.378-.155 0-.312-.015-.466-.044-.736-.14-1.276-.594-1.632-1.107-.34.074-.71.117-1.102.117-1.386 0-2.815-.582-3.58-1.457C.737 13.713.096 11.957.096 9.733c0-1.378.262-2.662.777-3.814C2.037 3.535 4.033.793 12.206.793zm.001 2c-7.259 0-8.832 2.126-9.526 3.597-.421.892-.635 1.928-.635 3.076 0 1.856.488 3.235 1.445 4.096.488.439 1.395.819 2.17.819.277 0 .525-.035.738-.104l.04-.013c.11-.034.22-.071.336-.097.233-.052.479-.056.736-.012.378.064.71.198 1.01.372.404-.36.92-.61 1.513-.73.24-.047.483-.07.723-.07.59 0 1.1.115 1.57.233l.124.03c.298.073.583.116.847.116.19 0 .358-.022.508-.065.36-.104.687-.3.948-.462.296-.183.634-.396 1.1-.396.316 0 .633.088.966.268.17.091.313.19.434.29.353.28.696.534 1.135.534.458 0 .733-.33.884-.556.243-.365.31-1.327.36-2.386.008-.174.017-.356.026-.546.098-2.034.207-4.332-.284-5.546-1.364-3.383-4.473-3.594-5.078-3.594z"/></svg>
+                        </a>
+                    </div>
                 </div>
-                
-                <button type="submit" class="btn btn--primary btn--large">
-                    {{ trans('elements.contact.send_message') }}
-                </button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</main>
 
 <style>
-.contact-page {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 60px;
-}
-
-.contact-info__item {
-    margin-bottom: 30px;
-}
-
-.contact-info__title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--secondary-color);
-}
-
-.contact-info__title svg {
-    width: 24px;
-    height: 24px;
-    color: var(--primary-color);
-}
-
-.contact-info__text {
-    color: var(--text-light);
-    font-size: 15px;
-    line-height: 1.6;
-    margin: 0;
-}
-
-.contact-info__text a {
-    color: var(--text-color);
-    transition: color var(--transition-fast);
-}
-
-.contact-info__text a:hover {
-    color: var(--primary-color);
-}
-
-.contact-form {
-    background-color: var(--bg-light);
-    padding: 40px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
 @media (max-width: 768px) {
-    .contact-page {
-        grid-template-columns: 1fr;
-        gap: 40px;
+    .contact-content {
+        grid-template-columns: 1fr !important;
     }
-    
-    .form-row {
-        grid-template-columns: 1fr;
+    .contact-header h1 {
+        font-size: 36px !important;
     }
-    
-    .contact-form {
-        padding: 24px;
+    .contact-form > div:first-of-type {
+        grid-template-columns: 1fr !important;
     }
 }
 </style>

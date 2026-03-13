@@ -2,220 +2,263 @@
 
 {% block title %}{{ product.name }} - {{ store.name }}{% endblock %}
 
-{% block meta_description %}{{ product.description|striptags|slice(0, 160) }}{% endblock %}
+{% block head %}
+{{ parent() }}
+<meta property="og:title" content="{{ product.name }}">
+<meta property="og:image" content="{{ product.image }}">
+<meta property="og:price:amount" content="{{ product.price }}">
+<meta property="og:price:currency" content="SAR">
+{% endblock %}
 
 {% block content %}
-<div class="product-page">
+<main class="product-page">
     <div class="container">
-        <nav class="breadcrumb">
-            <a href="{{ store.url }}" class="breadcrumb__link">{{ trans('elements.common.home') }}</a>
-            <span class="breadcrumb__separator">/</span>
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" style="padding: 20px 0; font-size: 13px; color: #666;">
+            <a href="{{ store.url }}" style="color: #666; text-decoration: none;">{{ trans('elements.common.home') }}</a>
+            <span style="margin: 0 8px;">/</span>
+            <a href="{{ store.products_url }}" style="color: #666; text-decoration: none;">{{ trans('elements.product.products') }}</a>
             {% if product.category %}
-            <a href="{{ product.category.url }}" class="breadcrumb__link">{{ product.category.name }}</a>
-            <span class="breadcrumb__separator">/</span>
+            <span style="margin: 0 8px;">/</span>
+            <a href="{{ product.category.url }}" style="color: #666; text-decoration: none;">{{ product.category.name }}</a>
             {% endif %}
-            <span class="breadcrumb__current">{{ product.name }}</span>
+            <span style="margin: 0 8px;">/</span>
+            <span style="color: var(--gold-primary);">{{ product.name }}</span>
         </nav>
-        
-        <div class="product-page__grid">
-            <div class="product-gallery">
-                <div class="product-gallery__main">
-                    <img src="{{ product.image ?? 'images/placeholder.jpg' | asset }}" alt="{{ product.name }}" id="product-main-image">
+
+        <div class="product-detail" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 80px;">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="product-images__main" style="aspect-ratio: 1; background: var(--cream); border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
+                    <img src="{{ product.image }}" alt="{{ product.name }}" id="main-image" style="width: 100%; height: 100%; object-fit: cover; cursor: zoom-in;">
                 </div>
                 {% if product.images|length > 1 %}
-                <div class="product-gallery__thumbnails">
+                <div class="product-images__thumbs" style="display: flex; gap: 10px;">
                     {% for image in product.images %}
-                    <button class="product-gallery__thumbnail {% if loop.first %}active{% endif %}" data-image="{{ image }}" aria-label="{{ trans('elements.product.view_image') }} {{ loop.index }}">
-                        <img src="{{ image }}" alt="{{ product.name }} - {{ loop.index }}">
+                    <button class="product-thumb {% if loop.first %}active{% endif %}" data-image="{{ image.url }}" style="width: 80px; height: 80px; border: 2px solid transparent; border-radius: 8px; overflow: hidden; cursor: pointer; padding: 0; background: none;">
+                        <img src="{{ image.url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover;">
                     </button>
                     {% endfor %}
                 </div>
                 {% endif %}
             </div>
-            
+
+            <!-- Product Info -->
             <div class="product-info">
-                {% if product.sku %}
-                <p class="product-info__sku">{{ trans('elements.product.sku') }}: {{ product.sku }}</p>
-                {% endif %}
+                <div class="product-brand" style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 8px;">LuluOro</div>
                 
-                <h1 class="product-info__title">{{ product.name }}</h1>
+                <h1 class="product-title" style="font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 500; margin-bottom: 16px; color: var(--black);">{{ product.name }}</h1>
                 
-                <div class="product-info__price">
-                    {% if product.on_sale %}
-                    <span class="product-info__price-current">{{ product.sale_price }}</span>
-                    <span class="product-info__price-old">{{ product.regular_price }}</span>
-                    {% else %}
-                    <span>{{ product.price }}</span>
-                    {% endif %}
+                {% if product.rating %}
+                <div class="product-rating" style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                    <div class="stars" style="color: #D4AF37;">
+                        {% for i in 1..5 %}
+                        <span style="font-size: 14px;">{% if i <= product.rating %}★{% else %}☆{% endif %}</span>
+                        {% endfor %}
+                    </div>
+                    <span style="font-size: 13px; color: #666;">({{ product.reviews_count ?? 0 }} reviews)</span>
                 </div>
-                
-                {% if product.availability %}
-                <p class="product-info__availability {% if product.in_stock %}in-stock{% else %}out-of-stock{% endif %}">
-                    {% if product.in_stock %}
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    {{ trans('elements.product.in_stock') }}
-                    {% else %}
-                    {{ trans('elements.product.out_of_stock') }}
-                    {% endif %}
-                </p>
                 {% endif %}
-                
-                <div class="product-info__description">
-                    {{ product.description|raw }}
+
+                <div class="product-price" style="margin-bottom: 24px;">
+                    {% if product.sale_price %}
+                    <span class="price-original" style="font-size: 18px; color: #999; text-decoration: line-through; margin-right: 12px;">{{ product.price }}</span>
+                    <span class="price-sale" style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #D0021B;">{{ product.sale_price }}</span>
+                    {% else %}
+                    <span class="price" style="font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--black);">{{ product.price }}</span>
+                    {% endif %}
+                    <span class="currency" style="font-size: 16px; color: #666; margin-left: 4px;">SAR</span>
                 </div>
-                
-                {% if product.options|length > 0 %}
-                <div class="product-options">
-                    {% for option in product.options %}
-                    <div class="product-option">
-                        <label class="product-options__label">{{ option.name }}</label>
-                        <div class="product-options__variants">
-                            {% for value in option.values %}
-                            <button class="product-options__variant {% if loop.first %}active{% endif %}" 
-                                    data-option="{{ option.id }}" 
-                                    data-value="{{ value }}">
-                                {{ value }}
-                            </button>
-                            {% endfor %}
+
+                {% if product.short_description %}
+                <div class="product-description" style="font-size: 15px; line-height: 1.8; color: #666; margin-bottom: 24px;">
+                    {{ product.short_description }}
+                </div>
+                {% endif %}
+
+                <!-- Quantity & Add to Cart -->
+                <div class="product-actions" style="margin-bottom: 24px;">
+                    <div class="quantity-selector" style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                        <label style="font-size: 14px; color: #666;">Quantity:</label>
+                        <div class="quantity-input" style="display: flex; align-items: center; border: 1px solid #e5e5e5; border-radius: 8px;">
+                            <button class="qty-btn qty-minus" style="width: 44px; height: 44px; border: none; background: none; font-size: 20px; cursor: pointer; color: #666;">−</button>
+                            <input type="number" value="1" min="1" id="quantity" style="width: 60px; height: 44px; border: none; text-align: center; font-size: 16px; font-family: inherit;">
+                            <button class="qty-btn qty-plus" style="width: 44px; height: 44px; border: none; background: none; font-size: 20px; cursor: pointer; color: #666;">+</button>
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                <div class="product-quantity">
-                    <label class="product-options__label">{{ trans('elements.product.quantity') }}</label>
-                    <div class="quantity-selector">
-                        <button class="quantity-selector__btn" data-action="decrease" aria-label="{{ trans('elements.common.decrease') }}">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"/>
+
+                    <div style="display: flex; gap: 16px;">
+                        <button class="btn btn--gold btn--large" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;" data-add-to-cart>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                                <line x1="3" y1="6" x2="21" y2="6"/>
+                                <path d="M16 10a4 4 0 0 1-8 0"/>
                             </svg>
+                            Add to Cart
                         </button>
-                        <input type="number" class="quantity-selector__input" value="1" min="1" max="{{ product.max_quantity ?? 99 }}">
-                        <button class="quantity-selector__btn" data-action="increase" aria-label="{{ trans('elements.common.increase') }}">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2"/>
-                                <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"/>
+                        <button class="btn btn--outline btn--large" style="width: 56px; padding: 16px;" title="Add to Wishlist">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </button>
                     </div>
                 </div>
-                
-                <div class="product-actions">
-                    <button class="btn btn--primary btn--large btn--full" data-add-to-cart="{{ product.id }}" {% if not product.in_stock %}disabled{% endif %}>
-                        {% if product.in_stock %}
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="9" cy="21" r="1" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="20" cy="21" r="1" stroke="currentColor" stroke-width="2"/>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        {{ trans('elements.common.add_to_cart') }}
-                        {% else %}
-                        {{ trans('elements.product.out_of_stock') }}
-                        {% endif %}
-                    </button>
-                    <button class="btn btn--outline btn--large" data-wishlist="{{ product.id }}" aria-label="{{ trans('elements.common.add_to_wishlist') }}">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </button>
+
+                <!-- Product Features -->
+                <div class="product-features" style="padding: 24px; background: var(--cream); border-radius: 12px; margin-bottom: 24px;">
+                    <ul style="list-style: none; font-size: 14px; color: #666;">
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" style="width: 18px; height: 18px;">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            Responsibly crafted in silver with solid 18k gold plating
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" style="width: 18px; height: 18px;">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            Free shipping on orders over 500 SAR
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 12px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" style="width: 18px; height: 18px;">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            30-day return policy
+                        </li>
+                    </ul>
                 </div>
-                
-                <div class="product-meta">
-                    {% if product.category %}
-                    <div class="product-meta__item">
-                        <span class="product-meta__label">{{ trans('elements.product.category') }}:</span>
-                        <a href="{{ product.category.url }}" class="product-meta__value">{{ product.category.name }}</a>
-                    </div>
-                    {% endif %}
-                    {% if product.tags|length > 0 %}
-                    <div class="product-meta__item">
-                        <span class="product-meta__label">{{ trans('elements.product.tags') }}:</span>
-                        <div class="product-meta__tags">
-                            {% for tag in product.tags %}
-                            <a href="{{ tag.url }}" class="product-meta__tag">{{ tag.name }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
-                </div>
-                
-                <div class="product-share">
-                    <span class="product-meta__label">{{ trans('elements.product.share') }}:</span>
-                    <div class="product-share__links">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ product.url|url_encode }}" class="product-share__link" target="_blank" rel="noopener" aria-label="Facebook">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
+
+                <!-- Share -->
+                <div class="product-share" style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 14px; color: #666;">Share:</span>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="#" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 50%; color: #666; text-decoration: none;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 18px; height: 18px;"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
                         </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ product.url|url_encode }}&text={{ product.name|url_encode }}" class="product-share__link" target="_blank" rel="noopener" aria-label="Twitter">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                            </svg>
+                        <a href="#" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 50%; color: #666; text-decoration: none;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 18px; height: 18px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
-                        <a href="https://pinterest.com/pin/create/button/?url={{ product.url|url_encode }}&media={{ product.image|url_encode }}&description={{ product.name|url_encode }}" class="product-share__link" target="_blank" rel="noopener" aria-label="Pinterest">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.192 0 3.874-2.309 3.874-5.662 0-2.962-2.128-5.041-5.165-5.041-3.52 0-5.583 2.641-5.583 5.372 0 1.064.409 2.203.921 2.822.101.123.116.233.086.357-.094.388-.304 1.237-.345 1.409-.054.228-.179.276-.413.166-1.54-.717-2.501-2.968-2.501-4.771 0-3.887 2.824-7.457 8.134-7.457 4.277 0 7.601 3.049 7.601 7.131 0 4.258-2.687 7.688-6.413 7.688-1.253 0-2.43-.651-2.834-1.422l-.771 2.937c-.279 1.074-1.034 2.42-1.538 3.242C9.614 23.844 10.775 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
-                            </svg>
+                        <a href="#" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 50%; color: #666; text-decoration: none;">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width: 18px; height: 18px;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         </a>
-                        <button class="product-share__link" data-copy-link="{{ product.url }}" aria-label="{{ trans('elements.common.copy_link') }}">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
-                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        
-        {% if related_products|length > 0 %}
-        <section class="section section--small">
-            <div class="section-header">
-                <h2 class="section-header__title">{{ trans('elements.product.related_products') }}</h2>
-                <div class="section-header__divider">
-                    <span class="section-header__line"></span>
-                    <span class="section-header__diamond"></span>
-                    <span class="section-header__line"></span>
-                </div>
+
+        <!-- Product Description Tabs -->
+        <div class="product-tabs" style="margin-bottom: 80px;">
+            <div class="tabs-header" style="display: flex; border-bottom: 1px solid #e5e5e5; margin-bottom: 30px;">
+                <button class="tab-btn active" data-tab="description" style="padding: 16px 32px; border: none; background: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: var(--gold-primary); border-bottom: 2px solid var(--gold-primary);">Description</button>
+                <button class="tab-btn" data-tab="details" style="padding: 16px 32px; border: none; background: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: #666;">Details</button>
+                <button class="tab-btn" data-tab="shipping" style="padding: 16px 32px; border: none; background: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; color: #666;">Shipping</button>
             </div>
-            <div class="products-grid products-grid--4">
-                {% for product in related_products %}
-                <article class="product-card">
-                    <div class="product-card__image-wrapper">
-                        <a href="{{ product.url }}">
-                            <img src="{{ product.image ?? 'images/placeholder.jpg' | asset }}" alt="{{ product.name }}" class="product-card__image">
+            
+            <div class="tab-content active" id="description" style="font-size: 15px; line-height: 1.8; color: #666;">
+                {{ product.description|raw }}
+            </div>
+            
+            <div class="tab-content" id="details" style="display: none; font-size: 15px; line-height: 1.8; color: #666;">
+                <table style="width: 100%; max-width: 500px;">
+                    <tr><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5; font-weight: 500; width: 40%;">Material</td><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5;">18k Gold Plated Silver</td></tr>
+                    <tr><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5; font-weight: 500;">Weight</td><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5;">{{ product.weight ?? '5g' }}</td></tr>
+                    <tr><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5; font-weight: 500;">Dimensions</td><td style="padding: 12px 0; border-bottom: 1px solid #e5e5e5;">{{ product.dimensions ?? '2cm x 1.5cm' }}</td></tr>
+                </table>
+            </div>
+            
+            <div class="tab-content" id="shipping" style="display: none; font-size: 15px; line-height: 1.8; color: #666;">
+                <ul style="list-style: none;">
+                    <li style="margin-bottom: 16px; padding-left: 24px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--gold-primary);">●</span>
+                        Free shipping on orders over 500 SAR
+                    </li>
+                    <li style="margin-bottom: 16px; padding-left: 24px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--gold-primary);">●</span>
+                        Delivery within 3-5 business days
+                    </li>
+                    <li style="margin-bottom: 16px; padding-left: 24px; position: relative;">
+                        <span style="position: absolute; left: 0; color: var(--gold-primary);">●</span>
+                        30-day return policy
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-products" style="margin-bottom: 60px;">
+            <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 30px;">You May Also Like</h2>
+            <div class="products-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+                {% for related in related_products|slice(0, 4) %}
+                <div class="product-card" style="text-align: center;">
+                    <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; overflow: hidden; margin-bottom: 16px; background: #F5F3EF;">
+                        <a href="{{ related.url }}">
+                            <img src="{{ related.image }}" alt="{{ related.name }}" style="width: 100%; height: 100%; object-fit: cover;">
                         </a>
-                        <div class="product-card__actions">
-                            <button class="product-card__action-btn" data-wishlist="{{ product.id }}" aria-label="{{ trans('elements.common.add_to_wishlist') }}">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </button>
-                            <button class="product-card__action-btn" data-add-to-cart="{{ product.id }}" aria-label="{{ trans('elements.common.add_to_cart') }}">
-                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2"/>
-                                    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
-                                    <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
-                    <div class="product-card__content">
-                        <h3 class="product-card__title">
-                            <a href="{{ product.url }}">{{ product.name }}</a>
-                        </h3>
-                        <div class="product-card__price">
-                            <span class="product-card__price-current">{{ product.price }}</span>
-                        </div>
-                    </div>
-                </article>
+                    <h3 style="font-size: 14px; margin-bottom: 8px;"><a href="{{ related.url }}" style="color: var(--black); text-decoration: none;">{{ related.name }}</a></h3>
+                    <p style="font-size: 14px; color: #666;">{{ related.price }}</p>
+                </div>
                 {% endfor %}
             </div>
-        </section>
-        {% endif %}
+        </div>
     </div>
-</div>
+</main>
+
+<script>
+// Image Gallery
+document.querySelectorAll('.product-thumb').forEach(thumb => {
+    thumb.addEventListener('click', function() {
+        document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('main-image').src = this.dataset.image;
+    });
+});
+
+// Quantity
+document.querySelector('.qty-minus')?.addEventListener('click', () => {
+    const input = document.getElementById('quantity');
+    if (input.value > 1) input.value = parseInt(input.value) - 1;
+});
+document.querySelector('.qty-plus')?.addEventListener('click', () => {
+    const input = document.getElementById('quantity');
+    input.value = parseInt(input.value) + 1;
+});
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+            b.classList.remove('active');
+            b.style.color = '#666';
+            b.style.borderBottom = 'none';
+        });
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        
+        this.classList.add('active');
+        this.style.color = 'var(--gold-primary)';
+        this.style.borderBottom = '2px solid var(--gold-primary)';
+        document.getElementById(this.dataset.tab).style.display = 'block';
+    });
+});
+</script>
+
+<style>
+.product-thumb.active {
+    border-color: var(--gold-primary) !important;
+}
+.tab-btn:hover {
+    color: var(--gold-primary) !important;
+}
+@media (max-width: 768px) {
+    .product-detail {
+        grid-template-columns: 1fr !important;
+    }
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+</style>
 {% endblock %}
