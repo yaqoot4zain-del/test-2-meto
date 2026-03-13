@@ -1,194 +1,194 @@
 {% extends 'layouts/master.twig' %}
 
 {% block content %}
-{# Hero Section - Full Width Banner #}
+{# Hero Section with Demo Content #}
 <section class="hero">
-    <div class="hero__slider" id="hero-slider">
-        {% if theme.settings.get('hero_slides') %}
-            {% for slide in theme.settings.get('hero_slides') %}
-            <div class="hero__slide">
-                <div class="hero__image-wrapper">
-                    <img src="{{ slide.image }}" alt="{{ slide.title }}" class="hero__image">
-                </div>
-                <div class="hero__overlay"></div>
-                <div class="hero__content container">
-                    {% if slide.subtitle %}
-                    <p class="hero__subtitle">{{ slide.subtitle }}</p>
-                    {% endif %}
-                    <h1 class="hero__title">{{ slide.title }}</h1>
-                    {% if slide.text %}
-                    <p class="hero__text">{{ slide.text }}</p>
-                    {% endif %}
-                    {% if slide.button_url %}
-                    <a href="{{ slide.button_url }}" class="btn btn--gold btn--large hero__btn">
-                        {{ slide.button_text ?? 'SHOP NOW' }}
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        {% else %}
-        {# Default Hero #}
-        <div class="hero__slide">
-            <div class="hero__image-wrapper">
-                <img src="{{ 'images/hero-default.jpg' | asset }}" alt="{{ store.name }}" class="hero__image">
-            </div>
-            <div class="hero__overlay"></div>
-            <div class="hero__content container">
-                <p class="hero__subtitle">New Collection</p>
-                <h1 class="hero__title">{{ 'Elegant Jewelry' | trans }}</h1>
-                <p class="hero__text">{{ 'Discover our exquisite collection of fine jewelry' | trans }}</p>
-                <a href="{{ store.products_url }}" class="btn btn--gold btn--large hero__btn">
-                    SHOP NOW
-                </a>
-            </div>
+    <div class="hero__slide">
+        <div class="hero__image-wrapper" style="background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #1a1a1a 100%); min-height: 70vh; display: flex; align-items: center; justify-content: center;">
         </div>
-        {% endif %}
+        <div class="hero__overlay"></div>
+        <div class="hero__content container" style="text-align: center; color: white;">
+            <p class="hero__subtitle" style="font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px;">NEW COLLECTION</p>
+            <h1 class="hero__title" style="font-size: 56px; font-weight: 500; margin-bottom: 16px;">Elegant Jewelry</h1>
+            <p class="hero__text" style="font-size: 18px; margin-bottom: 32px;">Discover our exquisite collection of fine jewelry</p>
+            <a href="/collections/all" class="btn btn--gold btn--large" style="display: inline-block; padding: 16px 48px; background: #B8860B; color: white; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;">
+                SHOP NOW
+            </a>
+        </div>
     </div>
 </section>
 
 {# Collections Navigation #}
-<section class="collections-nav">
-    <div class="container">
-        <nav class="collections-nav__inner">
-            <a href="{{ store.products_url }}" class="collections-nav__link">{{ 'All' | trans }}</a>
-            <a href="/collections/rings" class="collections-nav__link">{{ 'Rings' | trans }}</a>
-            <a href="/collections/earrings" class="collections-nav__link">{{ 'Earrings' | trans }}</a>
-            <a href="/collections/bracelets" class="collections-nav__link">{{ 'Bracelets' | trans }}</a>
-            <a href="/collections/necklaces" class="collections-nav__link">{{ 'Necklaces' | trans }}</a>
+<section class="collections-nav" style="padding: 20px 0; background: white; border-bottom: 1px solid #f0f0f0;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <nav class="collections-nav__inner" style="display: flex; justify-content: center; gap: 40px;">
+            <a href="/collections/all" class="collections-nav__link" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none;">All</a>
+            <a href="/collections/rings" class="collections-nav__link" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none;">Rings</a>
+            <a href="/collections/earrings" class="collections-nav__link" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none;">Earrings</a>
+            <a href="/collections/bracelets" class="collections-nav__link" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none;">Bracelets</a>
+            <a href="/collections/necklaces" class="collections-nav__link" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; text-decoration: none;">Necklaces</a>
         </nav>
     </div>
 </section>
 
-{# Featured Products - Bestsellers #}
-{% component 'component-featured-products' with {
-    'section_title': 'Bestsellers',
-    'section_id': 'bestsellers',
-    'limit': 4,
-    'source': 'bestseller'
-} %}
-
-{# Banner CTA #}
-<section class="banner-cta">
-    <div class="container">
-        <div class="banner-cta__inner">
-            <div class="banner-cta__content">
-                <h2 class="banner-cta__title">{{ 'Shop Our Collection' | trans }}</h2>
-                <p class="banner-cta__text">{{ 'Discover timeless pieces crafted with precision' | trans }}</p>
-                <a href="{{ store.products_url }}" class="btn btn--outline">{{ 'View All' | trans }}</a>
+{# Bestsellers Section #}
+<section class="section" style="padding: 80px 0; background: #FAF9F6;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 class="section-title" style="font-size: 28px; font-family: 'Playfair Display', serif;">LuluOro Bestsellers</h2>
+            <a href="/collections/lo-iconics" class="section-link" style="font-size: 14px; color: #B8860B; text-decoration: underline;">View all</a>
+        </div>
+        <div class="products-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+            {# Demo Product 1 #}
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #B8860B, #D4AF37);">
+                        <span style="color: white; font-size: 48px;">💎</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">ARCH NECKLACE GOLD</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">630.00 SAR</p>
+            </div>
+            {# Demo Product 2 #}
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #1a1a1a, #333);">
+                        <span style="color: #D4AF37; font-size: 48px;">💍</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">PALM GARDEN EARRINGS</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">590.00 SAR</p>
+            </div>
+            {# Demo Product 3 #}
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #B8860B, #8B6914);">
+                        <span style="color: white; font-size: 48px;">🌙</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">NIGHT SKY NECKLACE</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">690.00 SAR</p>
+            </div>
+            {# Demo Product 4 #}
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #D4AF37, #B8860B);">
+                        <span style="color: white; font-size: 48px;">✨</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">DATES TEXTURE DROP STUDS</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">430.00 SAR</p>
             </div>
         </div>
     </div>
 </section>
 
-{# New Arrivals #}
-{% component 'component-featured-products' with {
-    'section_title': 'New Arrivals',
-    'section_id': 'new-arrivals',
-    'limit': 4,
-    'source': 'new'
-} %}
-
-{# Category Sections #}
-<section class="category-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">{{ 'Necklaces' | trans }}</h2>
-            <a href="/collections/necklaces" class="section-link">{{ 'View all' | trans }}</a>
+{# New Arrivals Section #}
+<section class="section" style="padding: 80px 0; background: white;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 class="section-title" style="font-size: 28px; font-family: 'Playfair Display', serif;">New Arrivals</h2>
+            <a href="/collections/new" class="section-link" style="font-size: 14px; color: #B8860B; text-decoration: underline;">View all</a>
         </div>
-        <div class="products-grid">
-            {% component 'component-products-slider' with {'collection': 'necklaces', 'limit': 4} %}
-        </div>
-    </div>
-</section>
-
-<section class="category-section category-section--alt">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">{{ 'Rings' | trans }}</h2>
-            <a href="/collections/rings" class="section-link">{{ 'View all' | trans }}</a>
-        </div>
-        <div class="products-grid">
-            {% component 'component-products-slider' with {'collection': 'rings', 'limit': 4} %}
-        </div>
-    </div>
-</section>
-
-<section class="category-section">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">{{ 'Earrings' | trans }}</h2>
-            <a href="/collections/earrings" class="section-link">{{ 'View all' | trans }}</a>
-        </div>
-        <div class="products-grid">
-            {% component 'component-products-slider' with {'collection': 'earrings', 'limit': 4} %}
-        </div>
-    </div>
-</section>
-
-<section class="category-section category-section--alt">
-    <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">{{ 'Bracelets' | trans }}</h2>
-            <a href="/collections/bracelets" class="section-link">{{ 'View all' | trans }}</a>
-        </div>
-        <div class="products-grid">
-            {% component 'component-products-slider' with {'collection': 'bracelets', 'limit': 4} %}
+        <div class="products-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;">
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #C0C0C0, #E8E8E8);">
+                        <span style="color: #333; font-size: 48px;">🌙</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">SILVER MOON CHARMS EARRINGS</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">530.00 SAR</p>
+            </div>
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #C0C0C0, #A9A9A9);">
+                        <span style="color: white; font-size: 48px;">💎</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">SWIRL RING IN SILVER</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">430.00 SAR</p>
+            </div>
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #B8860B, #D4AF37);">
+                        <span style="color: white; font-size: 48px;">🌴</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">PALM TREE EARRINGS - SILVER</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">470.00 SAR</p>
+            </div>
+            <div class="product-card" style="text-align: center;">
+                <div class="product-card__image-wrapper" style="position: relative; aspect-ratio: 1; background: #F5F3EF; margin-bottom: 16px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a, #333);">
+                        <span style="color: #D4AF37; font-size: 48px;">✨</span>
+                    </div>
+                </div>
+                <h3 class="product-card__title" style="font-size: 14px; margin-bottom: 8px;">HILAL CHOCKER NECKLACE</h3>
+                <p class="product-card__price" style="font-size: 14px; color: #666;">470.00 SAR</p>
+            </div>
         </div>
     </div>
 </section>
 
 {# Brand Story Section #}
-<section class="brand-story">
-    <div class="container">
-        <div class="brand-story__inner">
-            <div class="brand-story__image">
-                <img src="{{ theme.settings.get('brand_image') ?? ('images/brand-story.jpg' | asset) }}" alt="{{ 'Our Story' | trans }}">
+<section class="brand-story" style="padding: 100px 0; background: #FAF9F6;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <div class="brand-story__inner" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+            <div class="brand-story__image" style="aspect-ratio: 4/5; background: linear-gradient(135deg, #B8860B, #D4AF37); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 120px; color: white;">💎</span>
             </div>
-            <div class="brand-story__content">
-                <h2 class="brand-story__title">{{ 'Our Story' | trans }}</h2>
-                <p class="brand-story__text">{{ theme.settings.get('brand_story') ?? 'At LuluOro, we believe that jewelry should be as unique as the person wearing it. Each piece is crafted with precision and passion, combining traditional artistry with contemporary design.' | trans }}</p>
-                <a href="/pages/about" class="btn btn--gold">{{ 'Learn More' | trans }}</a>
+            <div class="brand-story__content" style="padding: 40px;">
+                <h2 class="brand-story__title" style="font-size: 36px; font-family: 'Playfair Display', serif; margin-bottom: 24px;">Our Story</h2>
+                <p class="brand-story__text" style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 32px;">
+                    At LuluOro, we believe that jewelry should be as unique as the person wearing it. Each piece is crafted with precision and passion, combining traditional artistry with contemporary design. Our collections are inspired by the beauty of nature and the elegance of timeless craftsmanship.
+                </p>
+                <a href="/pages/about" class="btn btn--gold" style="display: inline-block; padding: 12px 32px; background: #B8860B; color: white; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;">Learn More</a>
             </div>
         </div>
     </div>
 </section>
 
-{# Instagram Feed #}
-{% if theme.settings.get('show_instagram_feed') %}
-<section class="instagram-feed">
-    <div class="container">
-        <h2 class="section-title section-title--center">{{ 'Follow Us on Instagram' | trans }}</h2>
-        <div class="instagram-grid" id="instagram-grid">
-            {% for image in theme.settings.get('instagram_images') %}
-            <a href="{{ image.url ?? '#' }}" class="instagram-item" target="_blank">
-                <img src="{{ image.image }}" alt="Instagram" class="instagram-item__img">
-                <div class="instagram-item__overlay">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+{# Shop the Looks Section #}
+<section class="shop-looks" style="padding: 80px 0; background: white;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <h2 class="section-title section-title--center" style="font-size: 28px; font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 40px;">Shop the Looks</h2>
+        <div class="looks-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+            <a href="/pages/night-sky-mix-match" class="look-item" style="text-align: center; text-decoration: none;">
+                <div style="aspect-ratio: 3/4; background: linear-gradient(135deg, #1a1a1a, #333); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <span style="font-size: 64px;">🌙✨</span>
                 </div>
+                <h3 class="look-item__title" style="font-size: 16px; color: #1a1a1a;">Night Sky Mix & Match</h3>
             </a>
-            {% endfor %}
+            <a href="/pages/gold-and-malachite-statements" class="look-item" style="text-align: center; text-decoration: none;">
+                <div style="aspect-ratio: 3/4; background: linear-gradient(135deg, #B8860B, #D4AF37); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <span style="font-size: 64px;">💚💫</span>
+                </div>
+                <h3 class="look-item__title" style="font-size: 16px; color: #1a1a1a;">Gold and Malachite Statements</h3>
+            </a>
+            <a href="/pages/meaningful-accents" class="look-item" style="text-align: center; text-decoration: none;">
+                <div style="aspect-ratio: 3/4; background: linear-gradient(135deg, #C0C0C0, #E8E8E8); display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <span style="font-size: 64px;">💎🌿</span>
+                </div>
+                <h3 class="look-item__title" style="font-size: 16px; color: #1a1a1a;">Meaningful Accents</h3>
+            </a>
         </div>
     </div>
 </section>
-{% endif %}
 
-{# Shop the Looks #}
-{% if theme.settings.get('shop_the_looks') %}
-<section class="shop-looks">
-    <div class="container">
-        <h2 class="section-title section-title--center">{{ 'Shop the Looks' | trans }}</h2>
-        <div class="looks-grid">
-            {% for look in theme.settings.get('shop_the_looks') %}
-            <a href="{{ look.url }}" class="look-item">
-                <img src="{{ look.image }}" alt="{{ look.title }}" class="look-item__img">
-                <h3 class="look-item__title">{{ look.title }}</h3>
-            </a>
+{# Instagram Feed Placeholder #}
+<section class="instagram-feed" style="padding: 80px 0; background: #FAF9F6;">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px;">
+        <h2 class="section-title section-title--center" style="font-size: 28px; font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 40px;">Follow Us on Instagram</h2>
+        <div class="instagram-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px;">
+            {% for i in 1..6 %}
+            <div class="instagram-item" style="aspect-ratio: 1; background: linear-gradient(45deg, #B8860B, #D4AF37); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 32px; color: white;">📷</span>
+            </div>
             {% endfor %}
         </div>
     </div>
 </section>
-{% endif %}
 
 {{ content_for('home') }}
 {% endblock %}
